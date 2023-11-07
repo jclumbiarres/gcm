@@ -1,0 +1,4 @@
+datos.sqlite
+bkp.sqlite
+*.sqlite
+.github
