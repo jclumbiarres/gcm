@@ -1,0 +1,77 @@
+<div class="flex justify-center">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full text-left text-sm font-light">
+          <thead class="border-b font-medium dark:border-neutral-500">
+            <tr>
+              <th scope="col" class="px-6 py-4 text-center">Sprint</th>
+              <th scope="col" class="px-6 py-4 text-center">Nota</th>
+              <th scope="col" class="px-6 py-4 text-center">Fecha Fin</th>
+              <th scope="col" class="px-6 py-4 text-center">Fecha Entrega</th>
+              <th scope="col" class="px-6 py-4 text-center">Activo</th>
+              <th scope="col" class="px-6 py-4 text-center">Completado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ $alumnoID := .Alumno.ID}} {{ range .Alumno.Sprints }}
+            <tr
+              class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+            >
+              <td class="whitespace-nowrap px-6 py-4 font-medium text-center">
+                <a
+                  href="#"
+                  hx-get="/alumnos/{{ $alumnoID }}/edit/{{ .Numero }}"
+                  hx-target="#contenido"
+                >
+                  {{ .Nombre }}
+                </a>
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 font-medium text-center">
+                {{ .Nota }}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-center font-bold">
+                {{if .FechaFin.IsZero}}No finalizado {{else}} {{ .FFinStr }}
+                {{end}}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-center font-bold">
+                {{if .FechaCorre.IsZero}} No corregido {{else}} {{ if gt
+                .FechaCorre.Unix .FechaFin.Unix }}
+                <span class="text-red-700">{{ .FCorStr }}</span>
+                {{ else }}
+                <span class="text-green-700">{{ .FCorStr }}</span>
+                {{ end }} {{end}}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-center">
+                {{ if .Activo }} Activo {{ else }} Inactivo {{ end }}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-center">
+                {{ if .Completado }} Completado {{ else }} Sin finalizar {{ end
+                }}
+              </td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<form>
+  <div class="flex justify-center mt-4">
+    <div class="flex justify-center mt-4">
+      <div class="flex">
+        <button
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-2"
+        >
+          Baja
+        </button>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
+        >
+          Finalizar
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

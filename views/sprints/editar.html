@@ -1,0 +1,132 @@
+<div class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full text-left text-sm font-light">
+          <thead class="border-b font-medium dark:border-neutral-500">
+            <tr>
+              <th scope="col" class="px-6 py-4">Numero</th>
+              <th scope="col" class="px-6 py-4">Nombre</th>
+              <th scope="col" class="px-6 py-4">Fin</th>
+              <th scope="col" class="px-6 py-4">Entrega</th>
+              <th scope="col" class="px-6 py-4">Nota</th>
+              <th scope="col" class="px-6 py-4">Activo</th>
+              <th scope="col" class="px-6 py-4">Completado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+            >
+              <td class="whitespace-nowrap px-6 py-4">{{.Sprint.Numero}}</td>
+              <td class="whitespace-nowrap px-6 py-4">{{.Sprint.Nombre}}</td>
+
+              <td class="whitespace-nowrap px-6 py-4 font-bold">
+                {{ if .Sprint.FechaFin.IsZero }} No finalizado {{else}}
+                {{.Sprint.FFinStr}} {{end}}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 font-bold">
+                {{ if .Sprint.FechaFin.IsZero }} No Corregido {{ else }} {{ if
+                gt .Sprint.FechaCorre.Unix .Sprint.FechaFin.Unix }}
+                <span class="text-red-500">{{ .Sprint.FCorStr }}</span>
+                {{ else }}
+                <span class="text-green-500">{{ .Sprint.FCorStr }}</span>
+                {{ end }} {{ end }}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4">{{.Sprint.Nota}}</td>
+              <td class="whitespace-nowrap px-6 py-4">
+                {{ if .Sprint.Activo }} Activo {{ else }} Inactivo {{ end }}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4">
+                {{ if .Sprint.Completado }} Completado {{ else }} Sin finalizar
+                {{ end }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        {{ if .Sprint.Comentario}}
+        <div
+          class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-5"
+        >
+          <div class="md:flex">
+            <div class="p-8">
+              <div
+                class="uppercase tracking-wide text-sm text-indigo-500 font-semibold"
+              >
+                Comentario:
+              </div>
+              <p class="mt-2 text-gray-500">{{.Sprint.Comentario}}</p>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+        <div class="flex flex-col items-center mt-5">
+          <form class="flex-row mt-5 w-80">
+            <div class="mb-6">
+              <label
+                for="fechaCorre"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Fecha Entrega</label
+              >
+              <input
+                type="date"
+                id="fechaCorre"
+                name="fechaCorre"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                for="nota"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Nota</label
+              >
+              <input
+                type="number"
+                id="nota"
+                name="nota"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label
+                for="comentario"
+                class="block mb-2 text-sm font-medium text-gray-900"
+                >Comentario</label
+              >
+              <input
+                type="text"
+                id="comentario"
+                name="comentario"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
+              />
+            </div>
+            <div class="mb-6 flex items-center">
+              <input
+                type="checkbox"
+                id="completado"
+                name="completado"
+                class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+              <label for="completado" class="text-sm font-medium text-gray-900"
+                >Completado</label
+              >
+            </div>
+            <div class="mb-6">
+              <button
+                class="btn btn-primary bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                hx-put="/alumnos/{{ .Numero }}/edit/{{ .SprintNum }}"
+                hx-target="#contenido"
+              >
+                Corregir
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
